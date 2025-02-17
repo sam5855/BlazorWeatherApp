@@ -1,8 +1,45 @@
 ﻿@page "/contacts"
+@using BlazorApp.Models
+
 <h3>Contacts</h3>
 
-<p>This is the contacts page.</p>
+@if (contact == null) 
+{
+    <p>No Contacts to display</p>
+}
+else
+{
+    <div class="contact-card">
+        <p><strong>Name:</strong> @contact.Name</p>
+        <p><strong>Email:</strong> @contact.Email</p>
+    </div>
+}
+
 
 @code {
+    private Contact? contact;
 
+    protected override async Task OnInitializedAsync()
+    {
+        
+        try
+        {
+            using var client = new HttpClient { BaseAddress = new Uri("https://localhost:7241/") };
+            contact = await client.GetFromJsonAsync<Contact>("api/contact");
+            
+            if (contact != null)
+            {
+                Console.WriteLine($"Contact Data Received: {contact.Name}");
+            }
+            else
+            {
+                Console.WriteLine("Contact data is null.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error fetching contact data: {ex.Message}");
+
+        }
+    }
 }
