@@ -101,3 +101,12 @@ a, .btn-link {
 code {
     color: #c02d76;
 }
+
+.weather-card {
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #f8f8f8;
+    width: 300px;
+    margin-top: 10px;
+}

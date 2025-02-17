@@ -10,7 +10,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                      policy.WithOrigins("https://localhost:7241", "https://localhost:7073");
+                      policy.WithOrigins("https://localhost:7073"); //Port the Blazor frontend is running on
                                               
                       });
 });
