@@ -1,0 +1,52 @@
+﻿@page "/weather"
+
+<h3>Weather Forecast</h3>
+
+@if (weatherData == null) 
+{
+    <p>Loading...</p>
+
+}
+else
+{
+    <div class="weather-card">
+        <p><strong>Date:</strong> @weatherData.Date.ToShortDateString()</p>
+        <p><strong>Temperature (°C):</strong> @weatherData.TemperatureC</p>
+        <p><strong>Summary:</strong> @weatherData.Summary</p>
+    </div>
+}
+
+@code {
+    private WeatherData? weatherData;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+
+        try
+        {
+            using var client = new HttpClient { BaseAddress = new Uri("https://localhost:7241/") };
+            weatherData = await client.GetFromJsonAsync<WeatherData>("api/weather");
+
+            if (weatherData != null)
+            {
+                Console.WriteLine($"Weather data received: {weatherData.Summary}");
+            }
+            else
+            {
+                Console.WriteLine("Weather data is null.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error fetching weather data: {ex.Message}");
+        }
+    }
+
+    private class WeatherData
+    {
+        public DateTime Date { get; set; }
+        public int TemperatureC { get; set; }
+        public string? Summary { get; set; }
+    }
+}
