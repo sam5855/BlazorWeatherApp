@@ -1,0 +1,245 @@
+﻿@page "/documenteditor"
+
+<h2>Document Editor</h2>
+
+<div class="jon-sidebar">
+    <div id="userValueDisplay"></div><button id="launchModalButton"
+                                             style="background: none; border: none; cursor: pointer;">
+        ⚙️🕵️‍♂️
+    </button>
+    <button id="openOtherPageBtn" style="background: none; border: none; cursor: pointer; float: right;">
+        HTML
+        🔧
+    </button>
+    <hr class="thick">
+    <div style="padding: 2px;">
+        <input type="text" id="fileID" placeholder="Enter Transaction ID">
+    </div>
+    <hr class="thick">
+    <input type="file" id="fileInput" multiple accept=".html, .pdf, .wftu" onchange="displayFileNames()" hidden>
+    <input type="file" id="folderInput" directory webkitdirectory accept=".html, .pdf, .wftu"
+           onchange="displayFileNamesFromFolder()" hidden>
+    <div class="step">Files for Editing</div> <br>
+    <div id="fileList"></div><br>
+    <label for="printpreviewall">Preview all Edited Docs</label>
+    <button id="printpreviewall" onclick="printPreviewAll()">Print Preview</button>
+    <hr class="thick">
+    <div class="collapsible">
+        <button class="collapsible-button" data-value="1">Library</button>
+        <div class="content" style="padding: 10px;">
+            <br>
+            <div id="checkboxList"
+                 style="max-height: 250px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;">
+                <label>
+                    <input type="checkbox" id="checkbox-1" onclick="validateCode(event, this)"
+                           data-letter-id="letter1"
+                           data-letter-content="Text for <span class='data-element' data-key='Name.1'>Jon</span>'s cookie recipe">
+                    Add Cookies<span class="padlock" style="font-size: 13px; vertical-align: middle; float: left;"
+                                     title="This content is lock.  Please enter passcode to enable.">🔒</span>
+                    <button class="clone-btn" data-letter-id="letter1"
+                            style="font-size: 11px; float: right;">
+                        Clone
+                    </button>
+                </label>
+                <hr>
+
+                <label>
+                    <input type="checkbox" id="checkbox-2" data-letter-id="letter2"> Happy times
+                    <button class="clone-btn" data-letter-id="letter2"
+                            style="font-size: 11px; float: right;">
+                        Clone
+                    </button>
+                </label><br>
+                <label>
+                    <input type="checkbox" id="checkbox-3" data-letter-id="letter3"> Transaction Details
+                    <button class="clone-btn" data-letter-id="letter3"
+                            style="font-size: 11px; float: right;">
+                        Clone
+                    </button>
+                </label><br>
+            </div>
+            <br>
+            <label for="fileInput" style="font-size: 24px;">
+                ⇫
+                <input type="file" id="fileInput" multiple accept=".html, .pdf, .wftu" style="display: none;">
+            </label>
+        </div>
+    </div>
+    <hr>
+
+    <div class="collapsible">
+        <button class="collapsible-button" data-value="2" hidden>To Do List</button>
+        <div class="content" style="padding: 10px;" hidden>
+            <br>
+            <div id="toDoListContainer" style="height: 200px; overflow-y: scroll; border: 1px solid black;" hidden>
+            </div>
+            <br>
+        </div>
+    </div>
+    <hr hidden>
+    <div class="collapsible">
+        <button class="collapsible-button" data-value="2" hidden>Defaults</button>
+        <div class="content" style="padding: 10px;" hidden>
+            <div style="padding: 20px;" hidden>
+                <input type="text" id="defaultData" placeholder="Enter default text to be stored" hidden>
+                <button onclick="addToDropdowndefault()" hidden>Add to Dropdown</button>
+            </div>
+
+            <!-- Dropdown menu -->
+
+        </div>
+    </div>
+    <hr hidden>
+    <div class="collapsible">
+        <button class="collapsible-button" data-value="2">Add Contact</button>
+        <div class="content" style="padding: 10px;">
+            <div style="padding: 20px;">
+                <div>
+                    <select id="userDataDropdown" style="margin: 5px;">
+                        <option>Select Entity</option>
+                    </select><br>
+                    <button onclick="insertSignatureLine5()"
+                            style="font-size: 11px; width: 17%; text-align: center;"
+                            title="Insert signature Line with date">
+                        🖋 + date
+                    </button>
+                    <button onclick="insertSignatureLine()" style="font-size: 11px; width: 10%; text-align: center;"
+                            title="Insert signature Line without date">
+                        🖋
+                    </button>
+                    <button id="deleteEntityButton"
+                            style="font-family: 'Cavolini', sans-serif; font-weight: bold; color: red; width: 10%; text-align: center;"
+                            title="Remove contact from dropdown" data-value="1">
+                        X
+                    </button>
+                    <button id="editContactButton" style="font-size: 11px; width: 10%; text-align: center;"
+                            title="Edit contact">
+                        ⚙️
+                    </button>
+                    <button onclick="insertEntityTextFromDropdown()"
+                            style="font-size: 12px; width: 30%; text-align: center;"
+                            title="Insert contact name and address">
+                        Name & Address
+                    </button>
+                    <button id="insertNameBtn" style="font-size: 12px; width: 12%; text-align: center;"
+                            title="Insert contact name">
+                        Name
+                    </button>
+                    <br>
+                    <hr>
+                    <center>
+                        <label>
+                            <input type="radio" name="entityType" value="Individual" id="individualRadio">
+                            Individual
+                        </label>
+                        <label style="margin-left: 20px;">
+                            <input type="radio" name="entityType" value="NonIndividual" id="nonIndividualRadio">
+                            NonIndividual
+                        </label>
+                    </center>
+                </div>
+                <hr>
+                <div id="formFields">
+                    <input type="text" id="firstName" placeholder="First Name or Business Name">
+                    <input type="text" id="middleName" placeholder="Middle Name">
+                    <input type="text" id="lastName" placeholder="Last Name">
+                    <input type="text" id="title" placeholder="Title"><br><br>
+                    <select id="entityTypeStructure" data-value="0">
+                        <option value="0">Select Entity Type</option>
+                        <option value="1">Individual</option>
+                        <option value="2">Sole Prop</option>
+                        <option value="3">Partnership</option>
+                        <option value="4">Limited Liability C Corporation</option>
+                        <option value="5">Limited Liability S Corporation</option>
+                        <option value="6">Limited Liability Partnership</option>
+                        <option value="7">Corporation</option>
+                        <option value="8">Trust</option>
+                        <option value="9">Federal Entity</option>
+                    </select> <br>
+                    <button onclick="insertSignatureLine4()" style="font-size: 11px; float: right;"
+                            title="Insert quick signature line and date without adding contact to rolodex">
+                        🖋 +
+                        date
+                    </button>
+                    <button onclick="insertSignatureLine2()" style="font-size: 11px; float: right;"
+                            title="Insert quick signature line without adding contact to rolodex">
+                        🖋
+                    </button>
+                    <button onclick="addToDropdown()" style="font-size: 11px; float: right;"
+                            title="Add contact to rolodex">
+                        💾
+                    </button>
+                    <br>
+
+
+                    <hr>
+                    <input type="text" id="streetAddress" placeholder="Street Address">
+                    <input type="text" id="city" placeholder="City, State Zip"><br>
+                    <input type="text" id="phone" placeholder="Phone">
+                    <input type="text" id="email" placeholder="Email">
+                    <hr hidden>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;" hidden>
+                    <label hidden>Borrower</label>
+                    <label hidden>Guarantor</label>
+                    <label hidden>Hypo</label>
+                    <label hidden>Signer</label>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 20px;" hidden>
+                    <input type="checkbox" id="checkboxBorrower" name="checkboxBorrower" hidden>
+                    <input type="checkbox" id="checkboxGuarantor" name="checkboxGuarantor" hidden>
+                    <input type="checkbox" id="checkboxHypothecator" name="checkboxHypothecator" hidden>
+                    <input type="checkbox" id="checkboxSigner" name="checkboxSigner" hidden>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="collapsible">
+        <button class="collapsible-button" data-value="1">Merge File</button>
+        <div class="content" style="padding: 10px;">
+            <br>
+            Default by Row<br> <input type="file" id="excelInput" accept=".xls, .xlsx" onchange="readExcel()">
+            <button onclick="updateAllIframesWithNewData()">Merge</button> <br><br>
+            Default by Column<br><input type="file" id="excelInput2" accept=".xls, .xlsx" onchange="readExcel2()">
+            <button onclick="updateAllIframesWithNewData2()">Merge</button>
+            <br>
+        </div>
+    </div>
+    <hr>
+    <div class="collapsible">
+        <button class="collapsible-button" data-value="1">Predefined Defaults</button>
+        <div class="content" style="padding: 10px;">
+
+            <p><b>Please select your default language:</b></p>
+            <select id="PredefinedDefaultsDropdown"></select>
+            <button onclick="insertTextFromPredefinedDefaultsDropdown()">Insert</button>
+            <br>
+        </div>
+    </div>
+    <hr>
+
+    <div class="collapsible">
+        <button class="collapsible-button" data-value="2">Edit Existing Clauses</button>
+        <div class="content" style="padding: 10px;">
+            <br>
+            <div id="checkboxContainer" style="height: 200px; overflow-y: scroll; border: 1px solid black;"></div>
+            <br>
+        </div>
+    </div>
+    <hr class="thick">
+    <div class="collapsible">
+        <button class="collapsible-button">Audit Log</button>
+        <div class="content" style="padding: 10px;">
+            <br>
+            <div id="changeLog" style="height: 200px; overflow-y: scroll; border: 1px solid black;">
+                <ul id="changeList"></ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+
+}
