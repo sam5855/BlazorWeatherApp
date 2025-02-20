@@ -1,0 +1,17 @@
+﻿
+
+.container {
+    display: flex;
+    width: 100vw;
+    
+}
+
+
+
+.test-sidebar {
+    width: 25%;
+    padding: 10px;
+    box-sizing: border-box;
+    
+}
+
